@@ -2,75 +2,31 @@
    Authors:
    Lab group:
  -}
+
+import MeasureTime
 ---------------------------------------------
-power :: Int -> Int -> Int
+power :: Integer -> Integer -> Integer
 power n k
    | k < 0 = error "power: negative argument"
 power n 0  = 1
 power n k  = n * power n (k-1)
 
 
-
-
--- A -------------------------
--- stepsPower n k gives the number of steps that
--- power n k takes to compute
-
-stepsPower :: Int -> Int -> Int
-stepsPower n k = n-1
-
-
--- B -------------------------
--- power1
-
--- power2 = undefined
-
--- C -------------------------
--- power2
-
-power3 = undefined
-
--- D -------------------------
-{- 
-
-<Describe your test cases here>
-
- -}
-
--- comparePower1
--- comparePower1 = undefined
-
--- comparePower2
--- comparePower2 = undefined
-
--- Test functions: 
-
-
--- length len()¨
-
--- list !! index  to get element in array
--- head list to get first element
--- last list to get last element
-
--- list take 3 gets first 3 elements
-
--- list drop 3 gets removes first 3 elements
+stepsPower :: Integer -> Integer -> Integer
+stepsPower n k = k+1
 
 
 
-createList :: Int -> Int -> [Int]
-createList length element = take length (repeat element) 
 
 
-power1 :: Int -> Int -> Int
-power1 n k  = product (createList k n)
+power1 :: Integer -> Integer -> Integer
+power1 n k  = product (replicate (fromInteger k) n)
 
 
-power2 :: Int -> Int -> Int
+power2 :: Integer -> Integer -> Integer
 power2 n k
-  | k == 0 = 1
-  | odd k = n * (power2 n (k - 1))
-  | not (odd k)= power2 (n * n * n) (div k 2)
+  | even k = power1 (n * n) (div k 2)
+  | odd k = n * (power1 n (k - 1))
 
 
 
@@ -83,13 +39,25 @@ boolToStr :: Bool -> String
 boolToStr True = "True"
 boolToStr False = "False"
 
-test1 = putStrLn "Hello" putStrLn "World"
+-- test1 = putStrLn "Hello" putStrLn "World"
 
 
 
-comparePower1 :: Int -> Int -> Bool
+comparePower1 :: Integer -> Integer -> Bool
 comparePower1 n k = (power n k) == (power1 n k)
 
 
-comparePower2 :: Int -> Int -> Bool
+comparePower2 :: Integer -> Integer -> Bool
 comparePower2 n k = (power n k) == (power2 n k)
+
+
+comp :: Integer -> Integer -> Bool
+comp n k = (comparePower1 n k) == (comparePower2 n k)
+
+
+minimumm = 0
+maximumm = 100
+
+test :: Bool
+test = not (elem False [comp n k | n <- [-100..100], k <- [0..100]]) 
+
